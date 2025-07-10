@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jasmine AI - Conversational AI Platform</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .text-gradient {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #06b6d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .typewriter {
+            font-family: 'Inter', sans-serif;
+        }
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+        .cursor {
+            animation: blink 1s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        
+        // Typewriter Component
+        function Typewriter({ text, delay = 150 }) {
+            const [displayText, setDisplayText] = useState('');
+            const [currentIndex, setCurrentIndex] = useState(0);
+            
+            useEffect(() => {
+                if (currentIndex < text.length) {
+                    const timeout = setTimeout(() => {
+                        setDisplayText(prev => prev + text[currentIndex]);
+                        setCurrentIndex(prev => prev + 1);
+                    }, delay);
+                    return () => clearTimeout(timeout);
+                }
+            }, [currentIndex, delay, text]);
+            
+            return (
+                <span className="typewriter">
+                    {displayText}
+                    <span className="cursor">|</span>
+                </span>
+            );
+        }
+        
+        // Theme Provider
+        function ThemeProvider({ children }) {
+            const [theme, setTheme] = useState(() => {
+                return localStorage.getItem('jasmine-ai-theme') || 'light';
+            });
+            
+            useEffect(() => {
+                document.documentElement.classList.remove('light', 'dark');
+                document.documentElement.classList.add(theme);
+            }, [theme]);
+            
+            const toggleTheme = () => {
+                const newTheme = theme === 'light' ? 'dark' : 'light';
+                localStorage.setItem('jasmine-ai-theme', newTheme);
+                setTheme(newTheme);
+            };
+            
+            return (
+                <div className="theme-provider">
+                    <button 
+                        onClick={toggleTheme}
+                        className="fixed top-4 right-4 z-50 p-2 rounded-lg bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors"
+                    >
+                        {theme === 'light' ? '🌙' : '☀️'}
+                    </button>
+                    {children}
+                </div>
+            );
+        }
+        
+        // Header Component
+        function Header() {
+            return (
+                <header className="bg-white dark:bg-gray-900 shadow-sm sticky top-0 z-40 border-b border-gray-200 dark:border-gray-800">
+                    <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-2 px-4 text-center text-sm font-medium">
+                        🏆 Jasmine AI named by Viva Tech: Top 10 Next Unicorns
+                    </div>
+                    <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="flex justify-between items-center h-16">
+                            <div className="flex items-center">
+                                <div className="flex-shrink-0 flex items-center">
+                                    <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg mr-3 flex items-center justify-center">
+                                        🧠
+                                    </div>
+                                    <span className="text-xl font-bold text-gray-900 dark:text-white">Jasmine AI</span>
+                                </div>
+                            </div>
+                            <div className="hidden md:block">
+                                <div className="ml-10 flex items-baseline space-x-8">
+                                    <a href="#" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors">Product</a>
+                                    <a href="#" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors">Clients</a>
+                                    <a href="#" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors">Company</a>
+                                </div>
+                            </div>
+                            <div className="hidden md:block">
+                                <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg text-sm font-medium transition-colors">
+                                    Get Started
+                                </button>
+                            </div>
+                        </div>
+                    </nav>
+                </header>
+            );
+        }
+        
+        // Hero Component
+        function Hero() {
+            return (
+                <section className="relative bg-gradient-to-br from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 py-20 lg:py-28 overflow-hidden">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="lg:grid lg:grid-cols-12 lg:gap-8">
+                            <div className="lg:col-span-6">
+                                <div className="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-4 py-2 rounded-full text-sm font-medium inline-flex items-center mb-6">
+                                    ⭐ Athena 2.0 - Now Available
+                                </div>
+                                
+                                <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 dark:text-white leading-tight mb-6">
+                                    The Global Leader in{" "}
+                                    <span className="text-gradient">
+                                        <Typewriter text="Conversational AI" delay={150} />
+                                    </span>
+                                </h1>
+                                
+                                <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
+                                    Explore an AI solution that seamlessly engages in conversation, automates support, and provides real-time insights to drive growth and enhance customer satisfaction.
+                                </p>
+                                
+                                <div className="flex flex-col sm:flex-row gap-4 mb-8">
+                                    <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all transform hover:scale-105 shadow-lg hover:shadow-xl text-center">
+                                        Get Started
+                                    </button>
+                                    <button className="border-2 border-gray-300 dark:border-gray-600 hover:border-blue-600 text-gray-700 dark:text-gray-300 hover:text-blue-600 px-8 py-4 rounded-lg text-lg font-semibold transition-all text-center flex items-center justify-center">
+                                        ▶️ Watch Demo
+                                    </button>
+                                </div>
+                                
+                                <div className="flex items-center gap-6 text-sm text-gray-500 dark:text-gray-400 flex-wrap">
+                                    <div className="flex items-center">
+                                        🛡️ Enterprise Security
+                                    </div>
+                                    <div className="flex items-center">
+                                        ⏰ 24/7 Support
+                                    </div>
+                                    <div className="flex items-center">
+                                        🌍 Global Scale
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div className="mt-12 lg:mt-0 lg:col-span-6">
+                                <div className="relative">
+                                    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-6">
+                                        <div className="flex items-center justify-between mb-4">
+                                            <div className="flex items-center space-x-2">
+                                                <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                                                <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                                                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                                            </div>
+                                            <span className="text-sm text-gray-500 dark:text-gray-400">Athena Dashboard</span>
+                                        </div>
+                                        <img
+                                            src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=500"
+                                            alt="AI Dashboard"
+                                            className="rounded-lg w-full h-48 object-cover mb-4"
+                                        />
+                                        <div className="grid grid-cols-2 gap-4">
+                                            <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-3">
+                                                <div className="text-2xl font-bold text-blue-600">10x</div>
+                                                <div className="text-sm text-gray-600 dark:text-gray-300">More Interactions</div>
+                                            </div>
+                                            <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-3">
+                                                <div className="text-2xl font-bold text-green-500">70%</div>
+                                                <div className="text-sm text-gray-600 dark:text-gray-300">Faster Response</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            );
+        }
+        
+        // Products Section
+        function ProductsSection() {
+            const products = [
+                {
+                    name: "AI Agent",
+                    title: "Conversational AI-powered virtual assistant",
+                    description: "Deploy intelligent virtual assistants that understand context, provide personalized responses, and seamlessly handle complex customer interactions.",
+                    icon: "🤖"
+                },
+                {
+                    name: "AI Guru",
+                    title: "Expert knowledge and advisory system",
+                    description: "Leverage AI-powered expertise to provide instant, accurate answers and recommendations based on your industry knowledge base.",
+                    icon: "🧠"
+                },
+                {
+                    name: "AI Analytics",
+                    title: "Advanced analytics and insights platform",
+                    description: "Transform raw data into actionable business intelligence with AI-driven analytics that predict trends and optimize performance.",
+                    icon: "📊"
+                },
+                {
+                    name: "AI Voice",
+                    title: "Natural voice synthesis and recognition",
+                    description: "Create lifelike voice interactions with advanced speech synthesis and recognition technology that understands intent and emotion.",
+                    icon: "🎤"
+                },
+                {
+                    name: "Speech Recognition",
+                    title: "Advanced speech-to-text processing",
+                    description: "Convert speech to text with industry-leading accuracy, supporting multiple languages, accents, and real-time processing.",
+                    icon: "🗣️"
+                }
+            ];
+            
+            return (
+                <section className="py-20 bg-gray-50 dark:bg-gray-800">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="text-center mb-16">
+                            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                                AI Products & Services
+                            </h2>
+                            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+                                Discover our comprehensive suite of AI solutions designed to transform your business operations and customer experience.
+                            </p>
+                        </div>
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            {products.map((product, index) => (
+                                <div key={index} className="bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 dark:border-gray-700">
+                                    <div className="text-4xl mb-4">{product.icon}</div>
+                                    <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">{product.name}</h3>
+                                    <h4 className="text-lg text-gray-600 dark:text-gray-300 mb-4">{product.title}</h4>
+                                    <p className="text-gray-600 dark:text-gray-300 leading-relaxed">{product.description}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            );
+        }
+        
+        // Footer Component
+        function Footer() {
+            return (
+                <footer className="bg-gray-900 dark:bg-black text-white py-12">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="text-center">
+                            <div className="flex items-center justify-center mb-4">
+                                <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg mr-3 flex items-center justify-center">
+                                    🧠
+                                </div>
+                                <span className="text-xl font-bold">Jasmine AI</span>
+                            </div>
+                            <p className="text-gray-400 mb-6">
+                                The Global Leader in Conversational AI
+                            </p>
+                            <div className="border-t border-gray-800 pt-6">
+                                <p className="text-gray-400 text-sm">
+                                    © 2024 Jasmine AI. All rights reserved.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            );
+        }
+        
+        // Main App Component
+        function App() {
+            return (
+                <ThemeProvider>
+                    <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors">
+                        <Header />
+                        <main>
+                            <Hero />
+                            <ProductsSection />
+                        </main>
+                        <Footer />
+                    </div>
+                </ThemeProvider>
+            );
+        }
+        
+        // Render the app
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>
