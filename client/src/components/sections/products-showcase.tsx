@@ -43,7 +43,7 @@ export default function ProductsShowcase() {
             <span className="text-primary">AI Products</span> to Power Any Business
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Discover ConnexAI's diverse range of AI products, designed to power any business.
+            Discover Jasmine AI's diverse range of AI products, designed to power any business.
           </p>
         </div>
 

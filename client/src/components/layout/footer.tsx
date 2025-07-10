@@ -11,7 +11,7 @@ export default function Footer() {
               <div className="w-8 h-8 bg-gradient-to-br from-primary to-secondary rounded-lg mr-3 flex items-center justify-center">
                 <Brain className="text-white" size={16} />
               </div>
-              <span className="text-xl font-bold">ConnexAI</span>
+              <span className="text-xl font-bold">Jasmine AI</span>
             </div>
             <p className="text-gray-400 leading-relaxed mb-6 max-w-md">
               The global leader in conversational AI, empowering businesses to transform customer engagement through intelligent automation and natural conversation.
@@ -57,7 +57,7 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
           <div className="text-gray-400 text-sm">
-            © 2024 ConnexAI. All rights reserved.
+            © 2024 Jasmine AI. All rights reserved.
           </div>
           <div className="flex space-x-6 mt-4 md:mt-0">
             <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Privacy Policy</a>

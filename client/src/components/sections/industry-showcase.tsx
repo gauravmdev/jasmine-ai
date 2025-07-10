@@ -32,7 +32,7 @@ export default function IndustryShowcase() {
         <div className="text-center mb-16">
           <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">Adaptable to Any Industry</h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-            Browse the testimonial resource hub to see what our clients and partners have to say about ConnexAI
+            Browse the testimonial resource hub to see what our clients and partners have to say about Jasmine AI
           </p>
           <button className="inline-flex items-center text-primary hover:text-primary/80 font-semibold">
             Client Stories <ArrowRight className="ml-2" size={16} />

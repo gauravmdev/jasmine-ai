@@ -35,7 +35,7 @@ export default function PerformanceMetrics() {
         <div className="text-center mb-16">
           <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">Industry-Leading Performance</h2>
           <p className="text-xl text-white/90 max-w-3xl mx-auto">
-            Discover Athena, ConnexAI's innovative AI product suite designed to reshape customer engagement.
+            Discover Athena, Jasmine AI's innovative AI product suite designed to reshape customer engagement.
           </p>
           <button className="inline-flex items-center text-white hover:text-gray-200 font-semibold mt-4">
             Find out more <ArrowRight className="ml-2" size={16} />

@@ -17,7 +17,7 @@ export default function Home() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
               <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">Adaptable to any industry</h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">Discover how ConnexAI transforms customer engagement across various sectors</p>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">Discover how Jasmine AI transforms customer engagement across various sectors</p>
             </div>
             {/* Ticker Animation Container */}
             <div className="relative">
@@ -69,7 +69,7 @@ export default function Home() {
             <div className="text-center mb-16">
               <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">Discover the Full AI Suite</h2>
               <p className="text-xl text-gray-600 max-w-4xl mx-auto mb-8">
-                Athena is ConnexAI's all-in-one AI engine, designed to elevate customer experience by streamlining communication, automating processes, and empowering smarter, faster decisions.
+                Athena is Jasmine AI's all-in-one AI engine, designed to elevate customer experience by streamlining communication, automating processes, and empowering smarter, faster decisions.
               </p>
               <button className="bg-primary hover:bg-primary/90 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all transform hover:scale-105 shadow-lg hover:shadow-xl">
                 Explore Athena AI
