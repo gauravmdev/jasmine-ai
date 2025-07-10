@@ -1,0 +1,425 @@
+// server/index.ts
+import express2 from "express";
+
+// server/routes.ts
+import { createServer } from "http";
+
+// server/storage.ts
+var MemStorage = class {
+  products;
+  testimonials;
+  voicePersonas;
+  currentProductId;
+  currentTestimonialId;
+  currentVoicePersonaId;
+  constructor() {
+    this.products = /* @__PURE__ */ new Map();
+    this.testimonials = /* @__PURE__ */ new Map();
+    this.voicePersonas = /* @__PURE__ */ new Map();
+    this.currentProductId = 1;
+    this.currentTestimonialId = 1;
+    this.currentVoicePersonaId = 1;
+    this.initializeData();
+  }
+  async initializeData() {
+    const productData = [
+      {
+        name: "AI Agent",
+        title: "Conversational AI-Driven Excellence",
+        description: "Provides 24/7 support by automating tasks and managing customer interactions across all channels.",
+        icon: "user-robot",
+        color: "from-indigo-500 to-indigo-600",
+        slug: "ai-agent"
+      },
+      {
+        name: "AI Guru",
+        title: "Your Intelligent AI Co-Pilot",
+        description: "Equips teams with instant answers and guidance by tapping into your knowledge base in real time.",
+        icon: "brain",
+        color: "from-purple-500 to-purple-600",
+        slug: "ai-guru"
+      },
+      {
+        name: "AI Analytics",
+        title: "AI Data-Driven Insights",
+        description: "Transforms conversations into clear insights, helping you predict trends and optimise performance.",
+        icon: "trending-up",
+        color: "from-cyan-500 to-cyan-600",
+        slug: "ai-analytics"
+      },
+      {
+        name: "AI Voice",
+        title: "Power Your Brand with AI Voice",
+        description: "Delivers natural-sounding speech from text, creating more engaging and personalised experiences.",
+        icon: "mic",
+        color: "from-green-500 to-green-600",
+        slug: "ai-voice"
+      },
+      {
+        name: "Automatic Speech Recognition",
+        title: "Never Miss a Word",
+        description: "Accurately transcribes spoken interactions to streamline voice services and improve interaction routing.",
+        icon: "audio-waveform",
+        color: "from-orange-500 to-orange-600",
+        slug: "automatic-speech-recognition"
+      }
+    ];
+    const testimonialData = [
+      {
+        name: "Mbusiswa Nyuswa",
+        title: "Chief Technology Officer",
+        company: "",
+        quote: "We've been using Jasmine AI for just over five years now, and I've never been so happy. They are an amazing technology partner to work with.",
+        avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face"
+      },
+      {
+        name: "Tim Murray",
+        title: "Director of IT",
+        company: "",
+        quote: "The onboarding and programming team were able to help us in a very short 2-week turnaround to go live, where in other cases with vendors it took us six months.",
+        avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face"
+      },
+      {
+        name: "Justin Freeman",
+        title: "Chief Information Officer",
+        company: "",
+        quote: "If you're somebody that is looking for a complete AI cutting-edge solution I highly recommend Jasmine AI.",
+        avatar: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=100&h=100&fit=crop&crop=face"
+      },
+      {
+        name: "Gayle Cathey",
+        title: "Director of Call Centre",
+        company: "",
+        quote: "The Jasmine AI support team has been fabulous. It is honestly, out of all my vendors and anyone I've dealt with, the best one.",
+        avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b407?w=100&h=100&fit=crop&crop=face"
+      },
+      {
+        name: "Ezequiel Negron",
+        title: "Director of IT",
+        company: "",
+        quote: "I would definitely recommend Jasmine AI to other health care providers. I think it is a leading platform in this industry.",
+        avatar: "https://images.unsplash.com/photo-1507591064344-4c6ce005b128?w=100&h=100&fit=crop&crop=face"
+      },
+      {
+        name: "Leo Lopez",
+        title: "Chief Executive Officer",
+        company: "",
+        quote: "I think that Jasmine AI offers an exceptional balance of investment, ease of use, support and capabilities for its price point.",
+        avatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=100&h=100&fit=crop&crop=face"
+      }
+    ];
+    const voicePersonaData = [
+      {
+        name: "Alexander",
+        language: "English (UK)",
+        tone: "Clear",
+        personality: "Assertive",
+        description: "Alexander is a clear and assertive AI Agent, delivering sharp, and deliberate advice with high energy and professionalism.",
+        color: "from-indigo-500 to-indigo-600"
+      },
+      {
+        name: "Dorothy",
+        language: "English (UK)",
+        tone: "Relaxed",
+        personality: "Calm",
+        description: "Dorothy provides a soothing and relaxed experience with calm, measured responses.",
+        color: "from-pink-400 to-pink-600"
+      },
+      {
+        name: "Archer",
+        language: "English (UK)",
+        tone: "Energetic",
+        personality: "Caring",
+        description: "Archer brings energy and care to every interaction with enthusiastic support.",
+        color: "from-blue-400 to-blue-600"
+      },
+      {
+        name: "Annette",
+        language: "Spanish (ES)",
+        tone: "Energetic",
+        personality: "Joyful",
+        description: "Annette delivers joyful and energetic assistance in Spanish with warmth.",
+        color: "from-orange-400 to-orange-600"
+      },
+      {
+        name: "Michael",
+        language: "English (US)",
+        tone: "Clear",
+        personality: "Upbeat",
+        description: "Michael provides clear and upbeat assistance with professional American English.",
+        color: "from-green-400 to-green-600"
+      },
+      {
+        name: "Aria",
+        language: "English (US)",
+        tone: "Patient",
+        personality: "Slow",
+        description: "Aria takes a patient and thoughtful approach with careful, deliberate responses.",
+        color: "from-purple-400 to-purple-600"
+      },
+      {
+        name: "Kyle",
+        language: "English (ZA)",
+        tone: "Friendly",
+        personality: "Warm",
+        description: "Kyle brings friendly warmth with a South African accent and approachable manner.",
+        color: "from-teal-400 to-teal-600"
+      }
+    ];
+    for (const product of productData) {
+      await this.createProduct(product);
+    }
+    for (const testimonial of testimonialData) {
+      await this.createTestimonial(testimonial);
+    }
+    for (const persona of voicePersonaData) {
+      await this.createVoicePersona(persona);
+    }
+  }
+  // Products
+  async getProducts() {
+    return Array.from(this.products.values());
+  }
+  async getProduct(id) {
+    return this.products.get(id);
+  }
+  async createProduct(insertProduct) {
+    const id = this.currentProductId++;
+    const product = { ...insertProduct, id };
+    this.products.set(id, product);
+    return product;
+  }
+  // Testimonials
+  async getTestimonials() {
+    return Array.from(this.testimonials.values());
+  }
+  async getTestimonial(id) {
+    return this.testimonials.get(id);
+  }
+  async createTestimonial(insertTestimonial) {
+    const id = this.currentTestimonialId++;
+    const testimonial = {
+      ...insertTestimonial,
+      id,
+      company: insertTestimonial.company || null,
+      avatar: insertTestimonial.avatar || null
+    };
+    this.testimonials.set(id, testimonial);
+    return testimonial;
+  }
+  // Voice Personas
+  async getVoicePersonas() {
+    return Array.from(this.voicePersonas.values());
+  }
+  async getVoicePersona(id) {
+    return this.voicePersonas.get(id);
+  }
+  async createVoicePersona(insertVoicePersona) {
+    const id = this.currentVoicePersonaId++;
+    const persona = { ...insertVoicePersona, id };
+    this.voicePersonas.set(id, persona);
+    return persona;
+  }
+};
+var storage = new MemStorage();
+
+// server/routes.ts
+async function registerRoutes(app2) {
+  app2.get("/api/products", async (req, res) => {
+    try {
+      const products = await storage.getProducts();
+      res.json(products);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch products" });
+    }
+  });
+  app2.get("/api/products/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const product = await storage.getProduct(id);
+      if (!product) {
+        return res.status(404).json({ message: "Product not found" });
+      }
+      res.json(product);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch product" });
+    }
+  });
+  app2.get("/api/testimonials", async (req, res) => {
+    try {
+      const testimonials = await storage.getTestimonials();
+      res.json(testimonials);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch testimonials" });
+    }
+  });
+  app2.get("/api/voice-personas", async (req, res) => {
+    try {
+      const personas = await storage.getVoicePersonas();
+      res.json(personas);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch voice personas" });
+    }
+  });
+  const httpServer = createServer(app2);
+  return httpServer;
+}
+
+// server/vite.ts
+import express from "express";
+import fs from "fs";
+import path2 from "path";
+import { createServer as createViteServer, createLogger } from "vite";
+
+// vite.config.ts
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import path from "path";
+import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
+var vite_config_default = defineConfig({
+  plugins: [
+    react(),
+    runtimeErrorOverlay(),
+    ...process.env.NODE_ENV !== "production" && process.env.REPL_ID !== void 0 ? [
+      await import("@replit/vite-plugin-cartographer").then(
+        (m) => m.cartographer()
+      )
+    ] : []
+  ],
+  resolve: {
+    alias: {
+      "@": path.resolve(import.meta.dirname, "client", "src"),
+      "@shared": path.resolve(import.meta.dirname, "shared"),
+      "@assets": path.resolve(import.meta.dirname, "attached_assets")
+    }
+  },
+  root: path.resolve(import.meta.dirname, "client"),
+  build: {
+    outDir: path.resolve(import.meta.dirname, "dist/public"),
+    emptyOutDir: true
+  },
+  server: {
+    fs: {
+      strict: true,
+      deny: ["**/.*"]
+    }
+  }
+});
+
+// server/vite.ts
+import { nanoid } from "nanoid";
+var viteLogger = createLogger();
+function log(message, source = "express") {
+  const formattedTime = (/* @__PURE__ */ new Date()).toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: true
+  });
+  console.log(`${formattedTime} [${source}] ${message}`);
+}
+async function setupVite(app2, server) {
+  const serverOptions = {
+    middlewareMode: true,
+    hmr: { server },
+    allowedHosts: true
+  };
+  const vite = await createViteServer({
+    ...vite_config_default,
+    configFile: false,
+    customLogger: {
+      ...viteLogger,
+      error: (msg, options) => {
+        viteLogger.error(msg, options);
+        process.exit(1);
+      }
+    },
+    server: serverOptions,
+    appType: "custom"
+  });
+  app2.use(vite.middlewares);
+  app2.use("*", async (req, res, next) => {
+    const url = req.originalUrl;
+    try {
+      const clientTemplate = path2.resolve(
+        import.meta.dirname,
+        "..",
+        "client",
+        "index.html"
+      );
+      let template = await fs.promises.readFile(clientTemplate, "utf-8");
+      template = template.replace(
+        `src="/src/main.tsx"`,
+        `src="/src/main.tsx?v=${nanoid()}"`
+      );
+      const page = await vite.transformIndexHtml(url, template);
+      res.status(200).set({ "Content-Type": "text/html" }).end(page);
+    } catch (e) {
+      vite.ssrFixStacktrace(e);
+      next(e);
+    }
+  });
+}
+function serveStatic(app2) {
+  const distPath = path2.resolve(import.meta.dirname, "public");
+  if (!fs.existsSync(distPath)) {
+    throw new Error(
+      `Could not find the build directory: ${distPath}, make sure to build the client first`
+    );
+  }
+  app2.use(express.static(distPath));
+  app2.use("*", (_req, res) => {
+    res.sendFile(path2.resolve(distPath, "index.html"));
+  });
+}
+
+// server/index.ts
+var app = express2();
+app.use(express2.json());
+app.use(express2.urlencoded({ extended: false }));
+app.use((req, res, next) => {
+  const start = Date.now();
+  const path3 = req.path;
+  let capturedJsonResponse = void 0;
+  const originalResJson = res.json;
+  res.json = function(bodyJson, ...args) {
+    capturedJsonResponse = bodyJson;
+    return originalResJson.apply(res, [bodyJson, ...args]);
+  };
+  res.on("finish", () => {
+    const duration = Date.now() - start;
+    if (path3.startsWith("/api")) {
+      let logLine = `${req.method} ${path3} ${res.statusCode} in ${duration}ms`;
+      if (capturedJsonResponse) {
+        logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
+      }
+      if (logLine.length > 80) {
+        logLine = logLine.slice(0, 79) + "\u2026";
+      }
+      log(logLine);
+    }
+  });
+  next();
+});
+(async () => {
+  const server = await registerRoutes(app);
+  app.use((err, _req, res, _next) => {
+    const status = err.status || err.statusCode || 500;
+    const message = err.message || "Internal Server Error";
+    res.status(status).json({ message });
+    throw err;
+  });
+  if (app.get("env") === "development") {
+    await setupVite(app, server);
+  } else {
+    serveStatic(app);
+  }
+  const port = 5e3;
+  server.listen({
+    port,
+    host: "0.0.0.0",
+    reusePort: true
+  }, () => {
+    log(`serving on port ${port}`);
+  });
+})();

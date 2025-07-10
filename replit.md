@@ -1,8 +1,8 @@
-# ConnexAI - Conversational AI Platform
+# Jasmine AI - Conversational AI Platform
 
 ## Overview
 
-This repository contains ConnexAI, a full-stack conversational AI platform built with React, Express, and Drizzle ORM. The application showcases AI products and services, featuring a modern landing page with product displays, testimonials, voice persona demos, and performance metrics.
+This repository contains Jasmine AI (formerly ConnexAI), a full-stack conversational AI platform built with React, Express, and Drizzle ORM. The application showcases AI products and services, featuring a modern landing page with product displays, testimonials, voice persona demos, and performance metrics. The project has been fully rebranded and includes dark/light theme functionality with animated elements.
 
 ## User Preferences
 
@@ -45,6 +45,8 @@ Preferred communication style: Simple, everyday language.
 - **Performance Metrics**: Statistical data presentation with animated counters
 - **Voice Demo**: Interactive voice persona selection and playback simulation
 - **Industry Showcase**: Case studies across different business sectors
+- **Dark/Light Theme**: Smooth theme switching with comprehensive dark mode support
+- **Animated Text**: Typewriter effect for "Conversational AI" with blinking cursor
 
 ### API Endpoints
 - `GET /api/products` - Retrieve all AI products
@@ -92,8 +94,9 @@ Preferred communication style: Simple, everyday language.
 ### Production Build
 1. **Frontend**: Vite builds optimized React bundle to `dist/public`
 2. **Backend**: esbuild compiles TypeScript server to `dist/index.js`
-3. **Database**: Drizzle migrations ensure schema consistency
-4. **Static Assets**: Served directly by Express in production mode
+3. **Vercel Functions**: Serverless API endpoints in `/api` directory for cloud deployment
+4. **Database**: Drizzle migrations ensure schema consistency
+5. **Static Assets**: Served directly by Express in production mode or via Vercel's CDN
 
 ### Database Management
 - **Schema Definition**: Centralized in `shared/schema.ts`
@@ -101,4 +104,15 @@ Preferred communication style: Simple, everyday language.
 - **Type Safety**: Automatic TypeScript types from schema definitions
 - **Connection**: Pooled connections via Neon serverless driver
 
-The application follows a monorepo structure with clear separation between client, server, and shared code, making it easy to maintain and scale across different deployment environments.
+## Recent Changes
+
+### December 2024
+- **Complete Rebranding**: Transformed ConnexAI to Jasmine AI across all components, content, and server data
+- **Theme System Implementation**: Added comprehensive dark/light theme toggle with smooth transitions
+- **Animation Enhancement**: Implemented typewriter effect for hero section text
+- **GitHub Integration**: Project successfully uploaded to GitHub repository
+- **Vercel Configuration**: Added serverless API functions and deployment configuration for Vercel hosting
+
+## Project Status
+
+The application is feature-complete and ready for deployment. All core functionality has been implemented including the modern landing page, interactive components, theme switching, and animated elements. The project follows a monorepo structure with clear separation between client, server, and shared code, making it easy to maintain and scale across different deployment environments.

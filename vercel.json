@@ -1,0 +1,26 @@
+{
+  "version": 2,
+  "buildCommand": "vite build",
+  "outputDirectory": "dist/public",
+  "functions": {
+    "api/products.ts": {
+      "src": "api/products.ts"
+    },
+    "api/testimonials.ts": {
+      "src": "api/testimonials.ts"
+    },
+    "api/voice-personas.ts": {
+      "src": "api/voice-personas.ts"
+    }
+  },
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
+}
