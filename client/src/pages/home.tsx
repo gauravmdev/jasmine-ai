@@ -13,28 +13,50 @@ export default function Home() {
       <Header />
       <main>
         <Hero />
-        <div className="py-16 bg-white">
+        <div className="py-16 bg-white overflow-hidden">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
               <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">Adaptable to any industry</h2>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto">Discover how ConnexAI transforms customer engagement across various sectors</p>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-6 items-center opacity-60 hover:opacity-100 transition-opacity">
-              {[
-                { icon: "🏥", label: "Healthcare" },
-                { icon: "🏛️", label: "Finance" },
-                { icon: "🛒", label: "Retail" },
-                { icon: "🎓", label: "Education" },
-                { icon: "🚗", label: "Automotive" },
-                { icon: "✈️", label: "Travel" },
-                { icon: "🛡️", label: "Government" },
-                { icon: "⚙️", label: "Manufacturing" },
-              ].map((industry, index) => (
-                <div key={index} className="text-center p-4 hover:bg-gray-50 rounded-lg transition-colors">
-                  <div className="text-3xl mb-2">{industry.icon}</div>
-                  <div className="text-sm text-gray-600">{industry.label}</div>
+            {/* Ticker Animation Container */}
+            <div className="relative">
+              <div className="ticker-wrapper">
+                <div className="ticker-content">
+                  {/* First set of industries */}
+                  {[
+                    { icon: "🏥", label: "Healthcare" },
+                    { icon: "🏛️", label: "Finance" },
+                    { icon: "🛒", label: "Retail" },
+                    { icon: "🎓", label: "Education" },
+                    { icon: "🚗", label: "Automotive" },
+                    { icon: "✈️", label: "Travel" },
+                    { icon: "🛡️", label: "Government" },
+                    { icon: "⚙️", label: "Manufacturing" },
+                  ].map((industry, index) => (
+                    <div key={index} className="ticker-item">
+                      <div className="text-4xl mb-2">{industry.icon}</div>
+                      <div className="text-sm text-gray-600 font-medium">{industry.label}</div>
+                    </div>
+                  ))}
+                  {/* Duplicate set for seamless loop */}
+                  {[
+                    { icon: "🏥", label: "Healthcare" },
+                    { icon: "🏛️", label: "Finance" },
+                    { icon: "🛒", label: "Retail" },
+                    { icon: "🎓", label: "Education" },
+                    { icon: "🚗", label: "Automotive" },
+                    { icon: "✈️", label: "Travel" },
+                    { icon: "🛡️", label: "Government" },
+                    { icon: "⚙️", label: "Manufacturing" },
+                  ].map((industry, index) => (
+                    <div key={`duplicate-${index}`} className="ticker-item">
+                      <div className="text-4xl mb-2">{industry.icon}</div>
+                      <div className="text-sm text-gray-600 font-medium">{industry.label}</div>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </div>
             </div>
           </div>
         </div>

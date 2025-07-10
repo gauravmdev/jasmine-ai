@@ -231,7 +231,12 @@ export class MemStorage implements IStorage {
 
   async createTestimonial(insertTestimonial: InsertTestimonial): Promise<Testimonial> {
     const id = this.currentTestimonialId++;
-    const testimonial: Testimonial = { ...insertTestimonial, id };
+    const testimonial: Testimonial = { 
+      ...insertTestimonial, 
+      id,
+      company: insertTestimonial.company || null,
+      avatar: insertTestimonial.avatar || null
+    };
     this.testimonials.set(id, testimonial);
     return testimonial;
   }
